@@ -1,5 +1,11 @@
-mvn clean verify sonar:sonar \
-  -Dsonar.projectKey=KJ \
-  -Dsonar.projectName='KJ' \
-  -Dsonar.host.url=http://192.168.101.43:9000 \
-  -Dsonar.token=sqp_8d8040843931c42d4b2573bb27e1e5a34d66f43b
+node {
+  stage('SCM') {
+    checkout scm
+  }
+  stage('SonarQube Analysis') {
+    def mvn = tool 'Maven';
+    withSonarQubeEnv() {
+      sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=java1 -Dsonar.projectName='java1'"
+    }
+  }
+}8678606105c44acb9caf115b070f5546
